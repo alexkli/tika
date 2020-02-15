@@ -30,38 +30,40 @@
   </parent>
 
   <artifactId>tika-app</artifactId>
+  <version>1.23-nui-patch</version>
   <name>Apache Tika application</name>
   <url>http://tika.apache.org/</url>
 
   <properties>
     <ikvm>${env.IKVM_HOME}</ikvm>
+    <tika.version>1.23</tika.version>
   </properties>
 
   <dependencies>
     <dependency>
       <groupId>${project.groupId}</groupId>
       <artifactId>tika-parsers</artifactId>
-      <version>${project.version}</version>
+      <version>${tika.version}</version>
     </dependency>
     <dependency>
       <groupId>${project.groupId}</groupId>
       <artifactId>tika-langdetect</artifactId>
-      <version>${project.version}</version>
+      <version>${tika.version}</version>
     </dependency>
     <dependency>
       <groupId>${project.groupId}</groupId>
       <artifactId>tika-serialization</artifactId>
-      <version>${project.version}</version>
+      <version>${tika.version}</version>
     </dependency>
     <dependency>
       <groupId>${project.groupId}</groupId>
       <artifactId>tika-xmp</artifactId>
-      <version>${project.version}</version>
+      <version>${tika.version}</version>
     </dependency>
     <dependency>
       <groupId>${project.groupId}</groupId>
       <artifactId>tika-batch</artifactId>
-      <version>${project.version}</version>
+      <version>${tika.version}</version>
     </dependency>
 
     <!-- logging -->
