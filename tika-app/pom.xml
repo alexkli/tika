@@ -30,7 +30,7 @@
   </parent>
 
   <artifactId>tika-app</artifactId>
-  <version>1.23-nui-patch</version>
+  <version>1.23-no-gui</version>
   <name>Apache Tika application</name>
   <url>http://tika.apache.org/</url>
 

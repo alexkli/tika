@@ -78,11 +78,9 @@ import org.apache.tika.detect.Detector;
 import org.apache.tika.exception.TikaException;
 import org.apache.tika.extractor.EmbeddedDocumentExtractor;
 import org.apache.tika.fork.ForkParser;
-import org.apache.tika.gui.TikaGUI;
 import org.apache.tika.io.TikaInputStream;
 import org.apache.tika.language.detect.LanguageHandler;
 import org.apache.tika.metadata.Metadata;
-import org.apache.tika.metadata.TikaCoreProperties;
 import org.apache.tika.metadata.serialization.JsonMetadata;
 import org.apache.tika.metadata.serialization.JsonMetadataList;
 import org.apache.tika.mime.MediaType;
@@ -377,13 +375,6 @@ public class TikaCLI {
             version();
         } else if (arg.equals("-v") || arg.equals("--verbose")) {
             org.apache.log4j.Logger.getRootLogger().setLevel(Level.DEBUG);
-        } else if (arg.equals("-g") || arg.equals("--gui")) {
-            pipeMode = false;
-            if (configFilePath != null){
-                TikaGUI.main(new String[]{configFilePath});
-            } else {
-                TikaGUI.main(new String[0]);
-            }
         } else if (arg.equals("--list-parser") || arg.equals("--list-parsers")) {
             pipeMode = false;
             displayParsers(false, false);
