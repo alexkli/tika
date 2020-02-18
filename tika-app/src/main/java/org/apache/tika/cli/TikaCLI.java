@@ -78,11 +78,9 @@ import org.apache.tika.detect.Detector;
 import org.apache.tika.exception.TikaException;
 import org.apache.tika.extractor.EmbeddedDocumentExtractor;
 import org.apache.tika.fork.ForkParser;
-import org.apache.tika.gui.TikaGUI;
 import org.apache.tika.io.TikaInputStream;
 import org.apache.tika.language.detect.LanguageHandler;
 import org.apache.tika.metadata.Metadata;
-import org.apache.tika.metadata.TikaCoreProperties;
 import org.apache.tika.metadata.serialization.JsonMetadata;
 import org.apache.tika.metadata.serialization.JsonMetadataList;
 import org.apache.tika.mime.MediaType;
@@ -107,6 +105,7 @@ import org.apache.tika.sax.BodyContentHandler;
 import org.apache.tika.sax.ContentHandlerFactory;
 import org.apache.tika.sax.ExpandedTitleContentHandler;
 import org.apache.tika.sax.RecursiveParserWrapperHandler;
+import org.apache.tika.sax.WriteOutContentHandler;
 import org.apache.tika.xmp.XMPMetadata;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -264,7 +263,15 @@ public class TikaCLI {
             return new BoilerpipeContentHandler(getOutputWriter(output, encoding));
         }
     };
-    
+
+    private final OutputType CONTENT = new OutputType() {
+        @Override
+        protected ContentHandler getContentHandler(
+            OutputStream output, Metadata metadata) throws Exception {
+            return new WriteOutContentHandler(getOutputWriter(output, encoding));
+        }
+    };
+
     private final OutputType METADATA = new OutputType() {
         @Override
         protected ContentHandler getContentHandler(
@@ -368,13 +375,6 @@ public class TikaCLI {
             version();
         } else if (arg.equals("-v") || arg.equals("--verbose")) {
             org.apache.log4j.Logger.getRootLogger().setLevel(Level.DEBUG);
-        } else if (arg.equals("-g") || arg.equals("--gui")) {
-            pipeMode = false;
-            if (configFilePath != null){
-                TikaGUI.main(new String[]{configFilePath});
-            } else {
-                TikaGUI.main(new String[0]);
-            }
         } else if (arg.equals("--list-parser") || arg.equals("--list-parsers")) {
             pipeMode = false;
             displayParsers(false, false);
@@ -440,6 +440,8 @@ public class TikaCLI {
             type = TEXT;
         } else if (arg.equals("-T") || arg.equals("--text-main")) {
             type = TEXT_MAIN;
+        } else if (arg.equals("-C") || arg.equals("--content")) {
+            type = CONTENT;
         } else if (arg.equals("-m") || arg.equals("--metadata")) {
             type = METADATA;
         } else if (arg.equals("-l") || arg.equals("--language")) {
@@ -565,6 +567,7 @@ public class TikaCLI {
         out.println("    -h  or --html          Output HTML content");
         out.println("    -t  or --text          Output plain text content");
         out.println("    -T  or --text-main     Output plain text content (main content only)");
+        out.println("    -C  or --content       Output all text content");
         out.println("    -m  or --metadata      Output only metadata");
         out.println("    -j  or --json          Output metadata in JSON");
         out.println("    -y  or --xmp           Output metadata in XMP");
